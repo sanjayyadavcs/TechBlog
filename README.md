@@ -62,7 +62,27 @@ This blog website project is a simple yet effective way for users to share their
 
 
 
+![image](https://user-images.githubusercontent.com/104247091/233838225-9a20d95f-b34c-44a3-8851-991223167db3.png)
+![image](https://user-images.githubusercontent.com/104247091/233838234-00c47d50-93c6-4cb5-b0a5-d002de8d3d74.png)
+![image](https://user-images.githubusercontent.com/104247091/233838253-4c0917c9-0f8b-4ed6-bfd1-9149bf46e880.png)
+![image](https://user-images.githubusercontent.com/104247091/233838257-e9e8579c-bb4b-476b-9274-679a15187749.png)
+![image](https://user-images.githubusercontent.com/104247091/233838265-807d0110-b970-4967-b8d9-0b0ff6806e71.png)
+![image](https://user-images.githubusercontent.com/104247091/233838270-59dfb0fc-ea49-453d-850c-1278c21ab6a7.png)
+![image](https://user-images.githubusercontent.com/104247091/233838286-e04f1a9f-a2fa-41d2-86f3-f1c0fe372968.png)
+![image](https://user-images.githubusercontent.com/104247091/233838294-fc4d8c90-e732-474c-b8c6-45b0124d9658.png)
+![image](https://user-images.githubusercontent.com/104247091/233838302-b489cebb-d896-4d65-9f0a-2d5c275e62ae.png)
+![image](https://user-images.githubusercontent.com/104247091/233838312-6a3f353a-b1aa-40ba-b6ef-24e11fb34a5f.png)
+![image](https://user-images.githubusercontent.com/104247091/233838328-6250bd74-96f2-40d3-8f48-948f63a19560.png)
 
+## DB STRUCTURE
+![image](https://user-images.githubusercontent.com/104247091/233838384-13b9432f-c063-49bf-84d1-924e21ef8ae9.png)
+![image](https://user-images.githubusercontent.com/104247091/233838401-682040b8-3edb-47da-a835-c6385a2952ac.png)
+![image](https://user-images.githubusercontent.com/104247091/233838409-230b2f31-e1dc-4586-90e5-819731793f4d.png)
+![image](https://user-images.githubusercontent.com/104247091/233838419-19ba4dce-6a30-4535-8762-5bbd59961738.png)
+![image](https://user-images.githubusercontent.com/104247091/233838429-ed48f7c5-3d8a-4e04-ab48-3c4f4d16661b.png)
+
+Jar file:
+mysql-connector-j-8.0.32.jar
 
 
 

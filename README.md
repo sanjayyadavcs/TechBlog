@@ -41,7 +41,7 @@ To run this project on your local machine, follow the steps below:
 1. Clone the repository:
 
    ```
-   git clone https://github.com/your-username/blog-website.git
+   git clone https://github.com/sanjay-yadav-cs/TechBlog.git
    ```
 
 2. Install Java Development Kit (JDK) version 8 or higher.

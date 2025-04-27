@@ -1,25 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project name="TechBlog" default="default" basedir=".">
     <description>Builds, tests, and runs the project TechBlog.</description>
 
-    <!-- Define the classpath for the libraries -->
-    <path id="classpath">
-        <!-- Include the libs directory for external JARs -->
+    <!-- Define classpath to include servlet API -->
+    <path id="compile.classpath">
+        <!-- Include the servlet API jar -->
         <fileset dir="libs">
-            <include name="javax.servlet-api.jar"/>
+            <include name="javax.servlet-api-3.1.0.jar"/>
         </fileset>
-        <!-- Include the compiled classes -->
-        <pathelement location="build/classes"/>
     </path>
-
-    <!-- Tell Ant where to find CopyLibs manually -->
-    <property name="libs.CopyLibs.classpath" location="libs/org-netbeans-modules-java-j2seproject-copylibstask.jar"/>
-
-    <import file="nbproject/build-impl.xml"/>
 
     <!-- Custom target for GitHub Actions -->
     <target name="ci-build" depends="clean,compile,dist">
         <echo>Building project for CI/CD...</echo>
+    </target>
+
+    <!-- Compile target -->
+    <target name="compile">
+        <javac srcdir="src" destdir="build/classes" classpathref="compile.classpath" />
     </target>
 
     <target name="default" depends="clean,compile,dist"/>

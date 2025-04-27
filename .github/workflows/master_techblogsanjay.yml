@@ -13,7 +13,7 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'   # default OpenJDK distribution
+          distribution: 'temurin'   # Default OpenJDK distribution
           java-version: '17'
 
       - name: Install Ant manually
@@ -21,7 +21,9 @@ jobs:
           choco install ant -y
 
       - name: Build with Ant
-        run: ant ci-build
+        run: |
+          # Ensure the 'lib' folder is included in the classpath for Ant
+          ant -lib lib ci-build
         # Make sure your build.xml exists in the root
         # and the build produces a WAR file
 
@@ -52,10 +54,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_55A51041D9694594A298F6217442D30D }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_27D4A114A01247CB9957EDE6C6F29D51 }}
 
-      # - name: Deploy to Azure Web App
-      #   id: deploy-to-webapp
-      #   uses: azure/webapps-deploy@v2
-      #   with:
-      #     app-name: 'TechblogSanjay'
-      #     slot-name: 'Production'
-      #     package: '*.war'
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'TechblogSanjay'
+          slot-name: 'Production'
+          package: '**/*.war'

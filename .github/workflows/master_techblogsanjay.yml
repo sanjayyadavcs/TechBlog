@@ -1,4 +1,4 @@
-name: Build and deploy WAR app to Azure Web App - TechblogSanjay
+name: Build Release - TechblogSanjay
 
 on:
   push:

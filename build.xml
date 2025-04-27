@@ -3,8 +3,11 @@
     <description>Builds, tests, and runs the project TechBlog.</description>
 
     <!-- Define the classpath for the libraries -->
-    <path id="compile.classpath">
-        <pathelement location="libs/javax.servlet-api-3.1.0.jar"/>
+    <path id="classpath">
+        <fileset dir="lib">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement path="src"/>
     </path>
 
     <!-- Tell Ant where to find CopyLibs manually -->

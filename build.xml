@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="TechBlog" default="default" basedir=".">
     <description>Builds, tests, and runs the project TechBlog.</description>
-    
+
+    <!-- Tell Ant where to find CopyLibs manually -->
+    <property name="libs.CopyLibs.classpath" location="libs/org-netbeans-modules-java-j2seproject-copylibstask.jar"/>
+
     <import file="nbproject/build-impl.xml"/>
 
     <!-- Custom target for GitHub Actions -->
@@ -9,13 +12,5 @@
         <echo>Building project for CI/CD...</echo>
     </target>
 
-    <!-- Default target for normal builds -->
     <target name="default" depends="clean,compile,dist"/>
-
-    <!--
-    =========================
-    Helpful notes for customization
-    (you already have this section, no change needed)
-    =========================
-    -->
 </project>

@@ -10,6 +10,9 @@
 <project name="TechBlog" default="default" basedir=".">
     <description>Builds, tests, and runs the project TechBlog.</description>
     <import file="nbproject/build-impl.xml"/>
+    
+    <!-- Custom target for GitHub Actions -->
+    <target name="ci-build" depends="clean,compile,war"/>
     <!--
 
     There exist several targets which are by default empty and which can be 

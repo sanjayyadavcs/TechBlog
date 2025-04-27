@@ -22,7 +22,7 @@ public class CommentDao {
 
         try {
 
-            String query = "insert into comment(pId,uId,comment) values(?,?,?)";
+            String query = "insert into Comment(pId,uId,comment) values(?,?,?)";
 
             PreparedStatement pt = this.con.prepareStatement(query);
             pt.setInt(1, pId);
@@ -45,7 +45,7 @@ public class CommentDao {
 
         try {
 
-            String query = "select count(*) from comment where pId=?";
+            String query = "select count(*) from Comment where pId=?";
 
             PreparedStatement pt = this.con.prepareStatement(query);
             pt.setInt(1, pId);
@@ -68,7 +68,7 @@ public class CommentDao {
 
         try {
 
-            String query = "select * from comment where pId=? order by id desc";
+            String query = "select * from Comment where pId=? order by id desc";
 
             PreparedStatement pt = this.con.prepareStatement(query);
             pt.setInt(1, pId);
@@ -93,7 +93,7 @@ public class CommentDao {
 
         try {
 
-            String query = "delete from comment where id=?";
+            String query = "delete from Comment where id=?";
 
             PreparedStatement pt = this.con.prepareStatement(query);
             pt.setInt(1, commentId);
@@ -112,7 +112,7 @@ public class CommentDao {
 
         try {
 
-            String query = "select * from comment where id=? and uId=?";
+            String query = "select * from Comment where id=? and uId=?";
 
             PreparedStatement pt = this.con.prepareStatement(query);
             pt.setInt(1, commentId);

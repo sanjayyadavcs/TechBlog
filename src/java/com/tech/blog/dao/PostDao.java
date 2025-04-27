@@ -17,7 +17,7 @@ public class PostDao {
 
         try {
 
-            String query = "insert into post(userId,title,content,code,image,categoryId) values(?,?,?,?,?,?)";
+            String query = "insert into Post(userId,title,content,code,image,categoryId) values(?,?,?,?,?,?)";
 
             PreparedStatement pst = this.con.prepareStatement(query);
             pst.setInt(1, userId);
@@ -42,7 +42,7 @@ public class PostDao {
         ArrayList<Post> posts = new ArrayList<>();
         try {
 
-            String query = "select * from post order by id desc";
+            String query = "select * from Post order by id desc";
 
             Statement stmt = this.con.createStatement();
 
@@ -71,7 +71,7 @@ public class PostDao {
         Post post = new Post();
         try {
             
-            String query = "select * from post where id = ?";
+            String query = "select * from Post where id = ?";
 
             PreparedStatement stmt = this.con.prepareStatement(query);
             stmt.setInt(1, PId);
@@ -106,7 +106,7 @@ public class PostDao {
         ArrayList<Post> posts = new ArrayList<>();
         try {
 
-            String query = "select * from post where categoryId = ? and id != ?";
+            String query = "select * from Post where categoryId = ? and id != ?";
 
             PreparedStatement stmt = this.con.prepareStatement(query);
             stmt.setInt(1, catId);
@@ -140,7 +140,7 @@ public class PostDao {
         ArrayList<Post> posts = new ArrayList<>();
         try {
 
-            String query = "select * from post where categoryId = ?";
+            String query = "select * from Post where categoryId = ?";
 
             PreparedStatement stmt = this.con.prepareStatement(query);
             stmt.setInt(1, catId);

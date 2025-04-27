@@ -12,6 +12,7 @@ import com.tech.blog.helper.ProfileHelper;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -23,62 +24,71 @@ import javax.servlet.http.Part;
 @MultipartConfig
 public class EditProfileServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    response.setContentType("text/html;charset=UTF-8");
+    try (PrintWriter out = response.getWriter()) {
 
-            String name = request.getParameter("user_name");
-            String gender = request.getParameter("gender");
-            String about = request.getParameter("about");
-            Part part = request.getPart("profile");
-            String profileImageName = part.getSubmittedFileName();
-            String newImagePath = request.getRealPath("/") + "profiles" + File.separator + profileImageName;
+        String name = request.getParameter("user_name");
+        String gender = request.getParameter("gender");
+        String about = request.getParameter("about");
+        Part part = request.getPart("profile");
+        String profileImageName = part.getSubmittedFileName();
 
-            HttpSession session = request.getSession();
+        // Generate a GUID for the profile image
+        String guid = UUID.randomUUID().toString();
 
-            User user = (User) session.getAttribute("currentuser");
+        // Get the file extension from the original profileImageName
+        String fileExtension = profileImageName.substring(profileImageName.lastIndexOf('.'));
 
-            user.setName(name);
-            user.setGender(gender);
-            user.setAbout(about);
+        // Create the new filename using the GUID and the file extension
+        String newFileName = guid + fileExtension;
 
-            String oldProfileImageName = user.getProfile();
-            String oldImagePath = request.getRealPath("/") + "profiles" + File.separator + oldProfileImageName;
+        // Construct the new image path
+        String newImagePath = request.getRealPath("/") + "profiles" + File.separator + newFileName;
 
-            if (profileImageName.trim().isEmpty()) {
-                user.setProfile(oldProfileImageName);
+        HttpSession session = request.getSession();
 
-            } else {
-                user.setProfile(profileImageName);
-            }
-            UserDao dao = new UserDao(ConnectionProvider.getConnection());
-            if (dao.updateUser(user)) {
-                session.setAttribute("currentuser", user);
-                if (!profileImageName.trim().isEmpty()) {
-                    if (ProfileHelper.saveProfile(part.getInputStream(), newImagePath)) {
-                        if (!oldProfileImageName.equals("default.png")) {
-                            ProfileHelper.deleteProfile(oldImagePath);
-                        }
-                        Message msg = new Message("Profile Updated Succesfully", "alert", "alert alert-success");
-                        session.setAttribute("msg", msg);
-                        response.sendRedirect("index.jsp");
+        User user = (User) session.getAttribute("currentuser");
+
+        user.setName(name);
+        user.setGender(gender);
+        user.setAbout(about);
+
+        String oldProfileImageName = user.getProfile();
+        String oldImagePath = request.getRealPath("/") + "profiles" + File.separator + oldProfileImageName;
+
+        if (profileImageName.trim().isEmpty()) {
+            user.setProfile(oldProfileImageName);
+        } else {
+            user.setProfile(newFileName); // Set the new filename (GUID)
+        }
+
+        UserDao dao = new UserDao(ConnectionProvider.getConnection());
+        if (dao.updateUser(user)) {
+            session.setAttribute("currentuser", user);
+            if (!profileImageName.trim().isEmpty()) {
+                if (ProfileHelper.saveProfile(part.getInputStream(), newImagePath)) {
+                    if (!oldProfileImageName.equals("default.png")) {
+                        ProfileHelper.deleteProfile(oldImagePath);
                     }
-
-                } else {
-                    Message msg = new Message("Profile Updated Succesfully", "alert", "alert alert-success");
+                    Message msg = new Message("Profile Updated Successfully", "alert", "alert alert-success");
                     session.setAttribute("msg", msg);
                     response.sendRedirect("index.jsp");
                 }
-
             } else {
-                Message msg = new Message("Something went wrong please try again..", "alert", "alert alert-danger");
+                Message msg = new Message("Profile Updated Successfully", "alert", "alert alert-success");
                 session.setAttribute("msg", msg);
                 response.sendRedirect("index.jsp");
-
             }
+        } else {
+            Message msg = new Message("Something went wrong please try again..", "alert", "alert alert-danger");
+            session.setAttribute("msg", msg);
+            response.sendRedirect("index.jsp");
         }
     }
+}
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

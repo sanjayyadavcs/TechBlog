@@ -17,7 +17,7 @@ public class LikeDao {
         
         try{
             
-            String query = "insert into liked(pId,uId) values(?,?)";
+            String query = "insert into Liked(pId,uId) values(?,?)";
             
             PreparedStatement pt = this.con.prepareStatement(query);
             pt.setInt(1, pId);
@@ -66,7 +66,7 @@ public class LikeDao {
         
         try{
             
-            String query = "select * from liked where pid=? and uId = ?";
+            String query = "select * from Liked where pid=? and uId = ?";
             
             PreparedStatement pt = this.con.prepareStatement(query);
             pt.setInt(1, pId);
@@ -91,7 +91,7 @@ public class LikeDao {
         
         try{
             
-            String query = "delete from liked where pid=? and uId=?";
+            String query = "delete from Liked where pid=? and uId=?";
             
             PreparedStatement pt = this.con.prepareStatement(query);
             pt.setInt(1, pId);

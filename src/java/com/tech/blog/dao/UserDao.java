@@ -16,10 +16,10 @@ public class UserDao {
         
         try{
             
-            String query = "insert into user(name,email,password,gender,about) values(?,?,?,?,?)";
+            String query = "insert into User(name,email,password,gender,about) values(?,?,?,?,?)";
             PreparedStatement pstmt = this.con.prepareStatement(query);
             pstmt.setString(1, user.getName());
-            pstmt.setString(2, user.getEmail());
+            pstmt.setString(2, user.getEmail().toLowerCase());
             pstmt.setString(3, user.getPassword());
             pstmt.setString(4, user.getGender());
             pstmt.setString(5, user.getAbout());
@@ -43,10 +43,10 @@ public class UserDao {
         
         try{
             
-            String query = "select * from user where email = ? and password = ?";
+            String query = "select * from User where email = ? and password = ?";
             
            PreparedStatement pstmt = this.con.prepareStatement(query);
-           pstmt.setString(1, email);
+           pstmt.setString(1, email.toLowerCase());
            pstmt.setString(2, password);
            
            ResultSet set = pstmt.executeQuery();
@@ -81,7 +81,7 @@ public class UserDao {
         
         try{
             
-            String query = "select * from user where id = ?";
+            String query = "select * from User where id = ?";
             
            PreparedStatement pstmt = this.con.prepareStatement(query);
            pstmt.setInt(1, id);
@@ -115,7 +115,7 @@ public class UserDao {
         boolean isSccess = false;
         try{
             
-            String query = "update user set name=?, gender=?,about=?,profile=? where id = ?";
+            String query = "update User set name=?, gender=?,about=?,profile=? where id = ?";
             
             PreparedStatement pstm = this.con.prepareStatement(query);
             

@@ -22,6 +22,10 @@
         <link href="css/mystyle.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <%@include file="css/css.jsp" %>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+        <script src="js/myjs.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
     <body style="background-color: gainsboro">
         <%@include file="normal_navbar.jsp" %>
@@ -37,7 +41,6 @@
                                 <%
 //                                    CategoryDao dao = new CategoryDao(ConnectionProvider.getConnection());
 //                                    List<Category> categories = dao.getCategories();
-
                                     for (Category cat : categories) {
 
                                 %>
@@ -56,7 +59,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Content</label>
-                            <textarea name="content" type="text" rows="5" class="form-control" placeholder="Enter Content..."></textarea>
+                            <script>
+                                $(document).ready(function () {
+                                    CKEDITOR.replace('content');
+                                });
+                            </script>
+                            <textarea id="content" name="content" type="text" rows="5" class="form-control" placeholder="Enter Content..."></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Code</label>
@@ -74,50 +82,46 @@
         </div>
 
 
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-        <script src="js/myjs.js" type="text/javascript"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="js/ckeditor/ckeditor.js"></script>
         <script>
 
-            $(document).ready(function () {
-                console.log("loadded");
-                $('#create-post').on('submit', function () {
-                    event.preventDefault();
-                    let form = new FormData(this);
+                                $(document).ready(function () {
+                                    console.log("loadded");
+                                    $('#create-post').on('submit', function () {
+                                        event.preventDefault();
+                                        let form = new FormData(this);
 
-                    $.ajax({
-                        url: "createpost",
-                        type: 'POST',
-                        data: form,
-                        success: function (data, textStatus, jqXHR) {
-                            console.log(data);
+                                        $.ajax({
+                                            url: "createpost",
+                                            type: 'POST',
+                                            data: form,
+                                            success: function (data, textStatus, jqXHR) {
+                                                console.log(data);
 
-                            if (data == 'success') {
-                                swal("Blog posted successfully!", "", "success", {
-                                    timer: 2000
-                                }).then(() => {
-                                    $('#configreset').click();
+                                                if (data == 'success') {
+                                                    swal("Blog posted successfully!", "", "success", {
+                                                        timer: 2000
+                                                    }).then(() => {
+                                                        $('#configreset').click();
+                                                    });
+                                                } else {
+                                                    swal(data, "", "error");
+                                                }
+
+
+                                            },
+                                            error: function (jqXHR, textStatus, errorThrown) {
+                                                console.log(jqXHR);
+                                            },
+                                            processData: false,
+                                            contentType: false
+
+                                        });
+
+                                    });
+
+
                                 });
-                            } else {
-                                swal(data, "", "error");
-                            }
-
-
-                        },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(jqXHR);
-                        },
-                        processData: false,
-                        contentType: false
-
-                    });
-
-                });
-
-
-            });
 
 
         </script>

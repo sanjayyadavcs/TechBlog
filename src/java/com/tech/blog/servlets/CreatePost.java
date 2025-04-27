@@ -11,6 +11,7 @@ import com.tech.blog.helper.ProfileHelper;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -27,14 +28,14 @@ public class CreatePost extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
 
             String title = request.getParameter("title");
             Part part = request.getPart("image");
             String content = request.getParameter("content");
             String code = request.getParameter("code");
             String categoryId = request.getParameter("category");
-            
+
             if (categoryId == null) {
                 out.print("select category");
             } else if (title == null || title.isEmpty()) {
@@ -45,30 +46,40 @@ public class CreatePost extends HttpServlet {
                 out.print("select content");
 
             } else {
-            String imageName = part.getSubmittedFileName();
-            int catId = Integer.parseInt(request.getParameter("category"));
-            HttpSession session = request.getSession();
-            
-            User user = (User)session.getAttribute("currentuser");
-            PostDao dao = new PostDao(ConnectionProvider.getConnection());
-            String newImagePath = request.getRealPath("/") + "posts" + File.separator + imageName;
-            if(dao.createPost(user.getId(), title, content, code, imageName, catId)){
-                if(ProfileHelper.saveProfile(part.getInputStream(), newImagePath)){
-                    out.print("success");
-                }else{
-                   out.print("Some technical issues");
-                }
-            }
-                
-            }
+                String imageName = part.getSubmittedFileName();
+                int catId = Integer.parseInt(request.getParameter("category"));
+                HttpSession session = request.getSession();
 
+                User user = (User) session.getAttribute("currentuser");
+                PostDao dao = new PostDao(ConnectionProvider.getConnection());
+
+                // Generate a GUID for the image
+                String guid = UUID.randomUUID().toString();
+
+                // Get the file extension from the original imageName
+                String fileExtension = imageName.substring(imageName.lastIndexOf('.'));
+
+                // Create the new filename using the GUID and the original file extension
+                String newFileName = guid + fileExtension;
+
+                // Construct the new image path
+                String newImagePath = request.getRealPath("/") + "posts" + File.separator + newFileName;
+
+                if (dao.createPost(user.getId(), title, content, code, newFileName, catId)) {
+                    if (ProfileHelper.saveProfile(part.getInputStream(), newImagePath)) {
+                        out.print("success");
+                    } else {
+                        out.print("Some technical issues");
+                    }
+                }
+
+            }
 
 //            out.println(title);
 //            out.println(content);
 //            out.println(code);
 //            out.println(categoryId);
 //            out.println(imageName);
-
         }
     }
 

@@ -18,7 +18,7 @@ public class CategoryDao {
         List<Category> categories = new ArrayList<>();
         try{
             
-            String query = "select * from category";
+            String query = "select * from Category";
             
             Statement stmt = this.con.createStatement();
             

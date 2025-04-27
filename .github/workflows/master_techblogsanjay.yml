@@ -1,7 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy JAR app to Azure Web App - TechblogSanjay
+name: Build and deploy WAR app to Azure Web App - TechblogSanjay
 
 on:
   push:
@@ -16,19 +13,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Java version
+      - name: Set up Java
         uses: actions/setup-java@v1
         with:
           java-version: '17'
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Set up Apache Ant
+        uses: apache/ant-setup-action@v1.1.0 # unofficial, or install manually if needed
 
-      - name: Upload artifact for deployment job
+      - name: Build with Ant
+        run: ant clean build
+        # assumes your build.xml is in project root
+        # and produces a WAR file inside a `dist/` or `build/` directory
+
+      - name: Upload artifact for deployment
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: '**/*.war'  # adjust if your WAR is in a specific folder
 
   deploy:
     runs-on: windows-latest
@@ -37,14 +39,14 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: java-app
-      
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -52,11 +54,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_55A51041D9694594A298F6217442D30D }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_27D4A114A01247CB9957EDE6C6F29D51 }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'TechblogSanjay'
-          slot-name: 'Production'
-          package: '*.jar'
-          
+      # - name: Deploy to Azure Web App
+      #   id: deploy-to-webapp
+      #   uses: azure/webapps-deploy@v2
+      #   with:
+      #     app-name: 'TechblogSanjay'
+      #     slot-name: 'Production'
+      #     package: '*.war'

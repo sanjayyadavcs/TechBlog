@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="TechBlog" default="default" basedir=".">
     <description>Builds, tests, and runs the project TechBlog.</description>
 
     <!-- Define classpath to include the servlet API -->
+    <!-- Define classpath to include the servlet API -->
     <path id="compile.classpath">
+        <pathelement location="libs/javax.servlet-api-3.1.0.jar"/>
         <pathelement location="libs/javax.servlet-api-3.1.0.jar"/>
     </path>
 
@@ -21,16 +24,23 @@
 
     <!-- Dist target -->
     <target name="dist" depends="compile">
+    <!-- Dist target -->
+    <target name="dist" depends="compile">
         <mkdir dir="build/dist"/>
         <jar destfile="build/dist/TechBlog.war" basedir="build/classes"/>
     </target>
+    </target>
 
+    <!-- Custom target for CI/CD -->
     <!-- Custom target for CI/CD -->
     <target name="ci-build" depends="clean,compile,dist">
         <echo>Building project for CI/CD...</echo>
     </target>
 
     <!-- Default target -->
+    <target name="default" depends="clean, compile, dist">
+        <echo message="Building the project..."/>
+    </target>
     <target name="default" depends="clean, compile, dist">
         <echo message="Building the project..."/>
     </target>

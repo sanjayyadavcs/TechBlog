@@ -1,9 +1,9 @@
-name: Build Release - TechblogSanjay
+name: Build and deploy WAR app to Azure Web App - TechblogSanjay
 
 on:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
   workflow_dispatch:
 
 jobs:
@@ -18,19 +18,20 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Set up Apache Ant
-        uses: apache/ant-setup-action@v1.1.0 # unofficial, or install manually if needed
+      - name: Install Ant manually
+        run: |
+          choco install ant -y
 
       - name: Build with Ant
         run: ant clean build
-        # assumes your build.xml is in project root
-        # and produces a WAR file inside a `dist/` or `build/` directory
+        # Make sure your build.xml exists in root
+        # and the build produces a WAR file
 
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '**/*.war'  # adjust if your WAR is in a specific folder
+          path: '**/*.war'  # adjust if your WAR is saved elsewhere
 
   deploy:
     runs-on: windows-latest

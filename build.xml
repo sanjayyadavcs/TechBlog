@@ -21,15 +21,15 @@
     </target>
 
     <!-- Compile target -->
-    <target name="compile">
+    <!-- <target name="compile">
         <javac srcdir="src" destdir="build/classes" classpathref="compile.classpath" />
-    </target>
+    </target> -->
 
     <!-- Create a JAR or WAR (adjust this if you need a WAR) -->
-    <target name="dist" depends="compile">
+    <!-- <target name="dist" depends="compile">
         <mkdir dir="build/dist"/>
         <jar destfile="build/dist/TechBlog.war" basedir="build/classes"/>
-    </target>
+    </target> -->
 
     <!-- Custom target for GitHub Actions -->
     <target name="ci-build" depends="clean,compile,dist">

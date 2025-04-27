@@ -1,18 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project name="TechBlog" default="default" basedir=".">
     <description>Builds, tests, and runs the project TechBlog.</description>
 
-    <!-- Define classpath to include servlet API -->
+    <!-- Define classpath to include the servlet API -->
     <path id="compile.classpath">
-        <fileset dir="libs">
-            <include name="javax.servlet-api-3.1.0.jar"/>
-        </fileset>
-    </path>
-
-    <!-- Define classpath for runtime (include servlet JAR) -->
-    <path id="runtime.classpath">
-        <fileset dir="libs">
-            <include name="javax.servlet-api-3.1.0.jar"/>
-        </fileset>
+        <pathelement location="libs/javax.servlet-api-3.1.0.jar"/>
     </path>
 
     <!-- Clean target -->
@@ -21,21 +13,23 @@
     </target>
 
     <!-- Compile target -->
-    <!-- <target name="compile">
-        <javac srcdir="src" destdir="build/classes" classpathref="compile.classpath" />
-    </target> -->
+    <target name="compile">
+        <javac srcdir="src" destdir="build/classes" classpathref="compile.classpath"/>
+    </target>
 
-    <!-- Create a JAR or WAR (adjust this if you need a WAR) -->
-    <!-- <target name="dist" depends="compile">
+    <!-- Dist target -->
+    <target name="dist" depends="compile">
         <mkdir dir="build/dist"/>
         <jar destfile="build/dist/TechBlog.war" basedir="build/classes"/>
-    </target> -->
+    </target>
 
-    <!-- Custom target for GitHub Actions -->
+    <!-- Custom target for CI/CD -->
     <target name="ci-build" depends="clean,compile,dist">
         <echo>Building project for CI/CD...</echo>
     </target>
 
     <!-- Default target -->
-    <target name="default" depends="clean,compile,dist"/>
+    <target name="default" depends="clean, compile, dist">
+        <echo message="Building the project..."/>
+    </target>
 </project>

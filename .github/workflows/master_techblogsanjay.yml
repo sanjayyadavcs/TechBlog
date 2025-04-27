@@ -21,7 +21,7 @@ jobs:
           choco install ant -y
 
       - name: Build with Ant
-        run: ant clean build
+        run: ant ci-build
         # Make sure your build.xml exists in the root
         # and the build produces a WAR file
 

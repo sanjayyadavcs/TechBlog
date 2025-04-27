@@ -2,6 +2,16 @@
 <project name="TechBlog" default="default" basedir=".">
     <description>Builds, tests, and runs the project TechBlog.</description>
 
+    <!-- Define the classpath for the libraries -->
+    <path id="classpath">
+        <!-- Include the libs directory for external JARs -->
+        <fileset dir="libs">
+            <include name="javax.servlet-api.jar"/>
+        </fileset>
+        <!-- Include the compiled classes -->
+        <pathelement location="build/classes"/>
+    </path>
+
     <!-- Tell Ant where to find CopyLibs manually -->
     <property name="libs.CopyLibs.classpath" location="libs/org-netbeans-modules-java-j2seproject-copylibstask.jar"/>
 

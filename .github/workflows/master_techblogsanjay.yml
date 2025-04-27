@@ -1,9 +1,6 @@
 name: Build and deploy - TechblogSanjay
 
 on:
-  # push:
-  #   branches:
-  #     - master
   workflow_dispatch:
 
 jobs:
@@ -14,8 +11,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Java
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v4
         with:
+          distribution: 'temurin'   # default OpenJDK distribution
           java-version: '17'
 
       - name: Install Ant manually
@@ -24,27 +22,26 @@ jobs:
 
       - name: Build with Ant
         run: ant clean build
-        # Make sure your build.xml exists in root
+        # Make sure your build.xml exists in the root
         # and the build produces a WAR file
 
       - name: Upload artifact for deployment
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '**/*.war'  # adjust if your WAR is saved elsewhere
+          path: '**/*.war'
 
   deploy:
     runs-on: windows-latest
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: java-app
 
